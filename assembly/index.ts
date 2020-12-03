@@ -5,7 +5,7 @@ export function getValue(key: string): string | null {
 }
 
 export function setValue(key:string, value: string): void {
-  logging.log("Storing data...")
+  logging.log("Data Stored:")
   logging.log("Key: " + key);
   logging.log("Value: " + value);
   storage.setString(key, value);
