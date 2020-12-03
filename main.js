@@ -1,6 +1,6 @@
-const near = require('./utils');
+const { setKeyValue, getValue } = require('./basicKeyValues');
 
-near.setKeyValue('name', 'alice')
-    .then(() => near.setKeyValue('age', '33')) 
-    .then(() => near.getValue('name'))
-    .then(() => near.getValue('age'));
+setKeyValue('name', 'alice')
+    .then(() => setKeyValue('age', '33')) 
+    .then(() => getValue('name'))
+    .then(() => getValue('age'));
