@@ -43,6 +43,7 @@ async function getValue(key) {
     console.log(`Retrieving stored value for [ ${key} ]`);
     result = await contract.getValue({ key });
     console.log('Result:', [ result ])
+    console.log('---------------------------------------------------------------------------')
 }
 
 module.exports = { setKeyValue, getValue };
