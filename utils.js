@@ -5,8 +5,7 @@ const keyStore = new nearAPI.keyStores.UnencryptedFileSystemKeyStore('../../../.
 const networkId = 'testnet';
 const contractName = process.env.CONTRACT_NAME;
 
-async function setKeyValue(key, value) {
-
+async function contractConnect() {
     const config = {
         networkId,
         keyStore,
@@ -18,13 +17,17 @@ async function setKeyValue(key, value) {
     
     const connection = await nearAPI.connect(config);
     const account = await connection.account(contractName);
-
+    
     const contract = new nearAPI.Contract(account, contractName, {
         viewMethods: ["getValue"],
         changeMethods: ["setValue"], 
         sender: contractName,  
     });
+    return contract;
+}
 
+async function setKeyValue(key, value) {
+    const contract = await contractConnect();
     try {
         console.log(`Calling contract [ ${contractName} ] and setting value [ ${value} ]`)
         console.log('---------------------------------------------------------------------------')
@@ -35,4 +38,11 @@ async function setKeyValue(key, value) {
     }
 };
 
-module.exports = setKeyValue ;
+async function getValue(key) {
+    const contract = await contractConnect();
+    console.log(`Retrieving stored value for [ ${key} ]`);
+    result = await contract.getValue({ key });
+    console.log('Result:', [ result ])
+}
+
+module.exports = { setKeyValue, getValue };

@@ -1,5 +1,4 @@
-const main = require('./utils.js');
+const near = require('./utils');
 
-const setKeyValue = require('./utils');
-
-setKeyValue('name', 'alice');
+near.setKeyValue('name', 'alice')
+    .then(() => near.getValue('name'));
