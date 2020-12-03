@@ -1,7 +1,8 @@
 {
   "scripts": {
     "build": "asb --verbose",
-    "deploy": "near dev-deploy --wasmFile=\"./contract.wasm\""
+    "deploy": "near dev-deploy --wasmFile=\"./contract.wasm\"",
+    "reset": "rm -rf contract.wasm && rm -rf ./neardev"
   },
   "devDependencies": {
     "dotenv": "^8.2.0",
