@@ -2,10 +2,10 @@ require("dotenv").config({ path: './neardev/dev-account.env' });
 const userHome = require('user-home');
 const nearAPI = require("near-api-js");
 
-const keyStore = new nearAPI.keyStores.UnencryptedFileSystemKeyStore(`${userHome}/.near-credentials/`);
+const keyStore = new nearAPI.keyStores.UnencryptedFileSystemKeyStore(`${userHome}/.near-credentials`);
 const contractName = process.env.CONTRACT_NAME;
 
-async function contractConnect() {
+async function getContract() {
     const config = {
         keyStore,
         networkId: 'default',
@@ -16,18 +16,17 @@ async function contractConnect() {
     }
     
     const connection = await nearAPI.connect(config);
-    const account = await connection.account(contractName);
-    
-    const contract = new nearAPI.Contract(account, contractName, {
+    const accountObj = await connection.account(contractName);
+    const methodArgs = {
         viewMethods: ["getValue"],
         changeMethods: ["setValue"], 
-        sender: contractName,  
-    });
-    return contract;
+        sender: contractName,
+    }
+    return new nearAPI.Contract(accountObj, contractName, methodArgs);
 }
 
 async function setKeyValue(key, value) {
-    const contract = await contractConnect();
+    const contract = await getContract();
     try {
         console.log(`Calling contract [ ${contractName} ]`)
         console.log(`Storing { ${key}: ${value} } ...`)
@@ -40,9 +39,9 @@ async function setKeyValue(key, value) {
 };
 
 async function getValue(key) {
-    const contract = await contractConnect();
+    const contract = await getContract();
     console.log(`Retrieving stored value for "${key}":`);
-    result = await contract.getValue({ key });
+    const result = await contract.getValue({ key });
     console.log('Result:', [ result ])
     console.log('---------------------------------------------------------------------------')
 }
