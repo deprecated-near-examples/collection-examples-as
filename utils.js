@@ -1,7 +1,8 @@
 require("dotenv").config({ path: './neardev/dev-account.env' });
+const userHome = require('user-home');
 const nearAPI = require("near-api-js");
 
-const keyStore = new nearAPI.keyStores.UnencryptedFileSystemKeyStore('../../../.near-credentials');
+const keyStore = new nearAPI.keyStores.UnencryptedFileSystemKeyStore(`${userHome}/.near-credentials`);
 const networkId = 'testnet';
 const contractName = process.env.CONTRACT_NAME;
 
