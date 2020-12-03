@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "build": "asb --verbose",
+    "deploy": "near dev-deploy --wasmFile=\"./contract.wasm\""
+  },
+  "devDependencies": {
+    "near-cli": "^1.4.0",
+    "near-sdk-as": "^2.1.0"
+  }
+}
