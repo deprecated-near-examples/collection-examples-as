@@ -1,6 +1,6 @@
 import { context, storage, logging } from "near-sdk-as";
 
-export function getValues(key: string): string | null {
+export function getValue(key: string): string | null {
   return storage.get<string>(key);
 }
 
