@@ -17,9 +17,10 @@ async function getContract() {
 
     const near = await nearAPI.connect(config);
     const accountObj = await near.account(contractName);
+
     const methodArgs = {
         viewMethods: ["getValue"],
-        changeMethods: ["setValue"], 
+        changeMethods: ["setString", "setNumber"], 
         sender: contractName,
     };
     return new nearAPI.Contract(accountObj, contractName, methodArgs);
