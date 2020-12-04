@@ -20,7 +20,7 @@ async function getContract() {
 
     const methodArgs = {
         viewMethods: ["getValue"],
-        changeMethods: ["setString", "setNumber"], 
+        changeMethods: ["setString", "setNumber", "setVectorValue"], 
         sender: contractName,
     };
     return new nearAPI.Contract(accountObj, contractName, methodArgs);

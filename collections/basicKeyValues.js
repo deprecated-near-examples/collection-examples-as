@@ -1,4 +1,4 @@
-const { getContract } = require('./utils');
+const { getContract } = require('../utils');
 
 async function setString(key, value) {
     const contract = await getContract();
@@ -34,9 +34,10 @@ async function getValue(key) {
         const result = await contract.getValue({ key });
         console.log('Result:', result);
         console.log('---------------------------------------------------------------------------');
+        return result
     } catch(error) {
         console.log(error);
-    };
+    }; 
 };
 
 module.exports = { setString, setNumber, getValue };

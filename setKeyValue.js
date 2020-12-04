@@ -1,4 +1,4 @@
-const { setString, setNumber, getValue } = require('./basicKeyValues');
+const { setString, setNumber, getValue } = require('./collections/basicKeyValues');
 
 setString('name', 'alice')
     .then(() => setNumber('age', 33)) 
