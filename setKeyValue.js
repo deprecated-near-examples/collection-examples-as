@@ -1,6 +1,10 @@
-const { setString, setNumber, getValue } = require('./collections/basicKeyValues');
+const { setString, setNumber, getValue } = require('./contract-helpers/basicKeyValues');
 
-setString('name', 'alice')
-    .then(() => setNumber('age', 33)) 
-    .then(() => getValue('name'))
-    .then(() => getValue('age'));
+async function setKeyValue () {
+    await setString('name', 'alice');
+    await setNumber('age', 55);
+    await getValue('name');
+    await getValue('age');
+}
+
+setKeyValue();

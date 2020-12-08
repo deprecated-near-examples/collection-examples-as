@@ -1,8 +1,12 @@
-const { setVector, setVectorValue, getVectorValues } = require('./collections/persistentVector');
+const { setVector, setVectorValue, getVectorValues } = require('./contract-helpers/persistentVector');
 
-const array = [ 'Alice', 'Bob', 'Charles']
+const nameArr = [ 'Alice', 'Bob', 'Charles']
 
-setVector(array)
-    .then(() => setVectorValue('Doug'))
-    .then(() => getVectorValues('name'))
-    .then((result) => console.log("Vector data on chain: ", result));
+async function main() {
+    await setVector(nameArr);
+    await setVectorValue('Doug');
+    const result = await getVectorValues('name');
+    return result;
+}
+
+main();

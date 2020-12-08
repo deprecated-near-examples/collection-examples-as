@@ -26,7 +26,7 @@ async function setVector(vector) {
   } catch(error) {
       console.log(error);
   }
-}
+};
 
 async function getVectorValues(key) {
   const length = await getValue(`${key}:len`);
