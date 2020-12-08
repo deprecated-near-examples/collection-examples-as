@@ -5,9 +5,9 @@ async function setString(key, value) {
     try {
         console.log(`Calling contract [ ${contract.contractId} ]`)
         console.log(`Storing { ${key}: ${value} } ...`);
-        console.log('---------------------------------------------------------------------------');
+        console.log('--------------------------------------------');
         await contract.setString({ key, value });
-        console.log('---------------------------------------------------------------------------');
+        console.log('--------------------------------------------');
     } catch(error) {
         console.log(error);
     };
@@ -18,9 +18,9 @@ async function setNumber(key, value) {
       try {
           console.log(`Calling contract [ ${contract.contractId} ]`)
           console.log(`Storing { ${key}: ${value} } ...`);
-          console.log('---------------------------------------------------------------------------');
+          console.log('--------------------------------------------');
           await contract.setNumber({ key, value });
-          console.log('---------------------------------------------------------------------------');
+          console.log('--------------------------------------------');
       } catch(error) {
           console.log(error);
       };
@@ -33,11 +33,18 @@ async function getValue(key) {
         console.log(`Retrieving stored value for "${key}":`);
         const result = await contract.getValue({ key });
         console.log('Result:', result);
-        console.log('---------------------------------------------------------------------------');
+        console.log('--------------------------------------------');
         return result
     } catch(error) {
         console.log(error);
     }; 
 };
 
-module.exports = { setString, setNumber, getValue };
+async function setKeyValue () {
+    await setString('name', 'alice');
+    await setNumber('age', 55);
+    await getValue('name');
+    await getValue('age');
+}
+
+setKeyValue();

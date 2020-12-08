@@ -1,4 +1,5 @@
 import { context, storage, logging, PersistentVector } from "near-sdk-as";
+import { myPersistentMap, myAVLTree } from "./model";
 
 export function getValue(key: string): string | null {
   return storage.get<string>(key);
@@ -19,7 +20,27 @@ export function setNumber(key: string, value: u32): void {
 }
 
 export function setVectorValue(value: string): void {
-  logging.log(value + " stored under \"name\"")
+  logging.log(value + " stored under \"name\"");
   let vector = new PersistentVector<string>("name");
   vector.push(value)
+}
+
+@nearBindgen
+class SimpleMap {
+  key: string;
+  value: string;
+}
+
+export function setMapValue(mapName: SimpleMap): void {
+  myPersistentMap.set(mapName.key, mapName.value);
+  logging.log("Data Stored");
+  logging.log("Key: " + mapName.key);
+  logging.log("Value: " + mapName.value);
+}
+
+export function addAvlValue(treeName: SimpleMap): void {
+  myAVLTree.set(treeName.key, treeName.value);
+  logging.log("Data Stored");
+  logging.log("Key: " + treeName.key);
+  logging.log("Value: " + treeName.value);
 }

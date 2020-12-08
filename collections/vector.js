@@ -1,13 +1,13 @@
 const { getContract } = require('../utils');
-const { getValue } = require('./basicKeyValues');
+const { getValue } = require('./basicKeyValue');
 
 async function setVectorValue(value) {
   const contract = await getContract();
   try {
-        console.log(`Calling contract [ ${contract.contractId} ]`)
-        console.log('---------------------------------------------------------------------------');
+        console.log(`Calling contract [ ${contract.contractId} ]`);
+        console.log('--------------------------------------------');
         await contract.setVectorValue({ value });
-        console.log('---------------------------------------------------------------------------');
+        console.log('--------------------------------------------');
     } catch(error) {
         console.log(error);
   };  
@@ -15,7 +15,7 @@ async function setVectorValue(value) {
 
 async function setVector(vector) {
   const contract = await getContract();
-  console.log('Setting vector values...');
+  console.log('Setting vector values...')
   try {
       let i;
       for (i = 0; i < vector.length; i++) {
@@ -39,4 +39,13 @@ async function getVectorValues(key) {
  return values;
 }
 
-module.exports = { setVector, setVectorValue, getVectorValues };
+const nameArr = [ 'Alice', 'Bob', 'Charles']
+
+async function main() {
+    await setVector(nameArr);
+    await setVectorValue('Doug');
+    const result = await getVectorValues('name');
+    return result;
+}
+
+main();
