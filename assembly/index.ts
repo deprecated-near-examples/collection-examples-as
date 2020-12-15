@@ -31,7 +31,7 @@ class SimpleMap {
   value: string;
 }
 
-export function setMapValue(mapName: SimpleMap): void {
+export function add_persistent_map(mapName: SimpleMap): void {
   myPersistentMap.set(mapName.key, mapName.value);
   logging.log("Data Stored");
   logging.log("Key: " + mapName.key);

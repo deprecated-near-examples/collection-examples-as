@@ -1,12 +1,12 @@
-const { getContract } = require("./utils");
-const data = require("./data");
+const { getContract } = require("./services/utils");
+const data = require("./services/data");
 const fs = require("fs");
 
 async function addKeyValuePair(contract, contractMethodString, key, value) {
   const result = await contract.account.functionCall(
     contract.contractId,
     contractMethodString,
-    { treeName: { key, value } },
+    { mapName: { key, value } },
     "300000000000000"
   );
   return result;
@@ -30,20 +30,24 @@ async function calculateGas(contract, contractMethod, dataObj) {
 async function writeResults(contract, contractMethod, dataArr) {
   let resultArr = [];
   for (let i = 0; i < dataArr.length; i++) {
-    const timeBeforeCall = (Date.now());
-    const result = await calculateGas(contract, contractMethod, dataArr[i]);
-    const timeAfterCall = (Date.now());
-    resultArr.push({ key: dataArr[i].key, value:result });
-    console.log(result, ((timeAfterCall - timeBeforeCall)/1000 + " sec."));
-    fs.writeFileSync("result.json", JSON.stringify(resultArr));
+    const timeBeforeCall = Date.now();
+    const gasBurnt = await calculateGas(contract, contractMethod, dataArr[i]);
+    const timeAfterCall = Date.now();
+    let result = {};
+    result[dataArr[i].key] = gasBurnt;
+    resultArr.push(result);
+    console.log(gasBurnt, (timeAfterCall - timeBeforeCall) / 1000 + " sec.");
+    fs.writeFileSync(
+      `results/user-results/${contractMethod}_results.js`,
+      `const ${contractMethod}_data = ${JSON.stringify(resultArr)}`
+    );
   }
 }
 
 async function main() {
   const contract = await getContract();
-  // writeResults(contract, 'add_lookup_map', data);
-  // writeResults(contract, 'setMapValue', data);
-   writeResults(contract, "addAvlValue", data);
+  writeResults(contract, 'add_persistent_map', data);
+  //  writeResults(contract, "addAvlValue", data);
 }
 
 main();

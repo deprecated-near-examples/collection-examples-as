@@ -24,7 +24,7 @@ async function getContract() {
             "setString", 
             "setNumber", 
             "setVectorValue",
-            "setMapValue",
+            "add_persistent_map",
             "addAvlValue"
         ], 
         sender: contractName,
