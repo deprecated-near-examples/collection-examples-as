@@ -1,5 +1,5 @@
 import { context, storage, logging, PersistentVector } from "near-sdk-as";
-import { myPersistentMap, myAVLTree } from "./model";
+import { myMap, myUnorderedMap, myTreeMap } from "./model";
 
 export function getValue(key: string): string | null {
   return storage.get<string>(key);
@@ -31,16 +31,14 @@ class SimpleMap {
   value: string;
 }
 
-export function add_persistent_map(mapName: SimpleMap): void {
-  myPersistentMap.set(mapName.key, mapName.value);
-  logging.log("Data Stored");
-  logging.log("Key: " + mapName.key);
-  logging.log("Value: " + mapName.value);
+export function add_map(mapName: SimpleMap): void {
+  myMap.set(mapName.key, mapName.value);
 }
 
-export function addAvlValue(treeName: SimpleMap): void {
-  myAVLTree.set(treeName.key, treeName.value);
-  logging.log("Data Stored");
-  logging.log("Key: " + treeName.key);
-  logging.log("Value: " + treeName.value);
+export function add_unordered_map(mapName: SimpleMap): void {
+  myUnorderedMap.set(mapName.key, mapName.value);
+}
+
+export function add_tree_map(mapName: SimpleMap): void {
+  myTreeMap.set(mapName.key, mapName.value);
 }

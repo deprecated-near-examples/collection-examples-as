@@ -1,6 +1,6 @@
-const { getContract } = require("./services/utils");
-const data = require("./services/data");
 const fs = require("fs");
+const { exec } = require("child_process");
+const { getContract, getDataSet } = require("./services/utils");
 
 async function addKeyValuePair(contract, contractMethodString, key, value) {
   const result = await contract.account.functionCall(
@@ -45,9 +45,11 @@ async function writeResults(contract, contractMethod, dataArr) {
 }
 
 async function main() {
+  const data = getDataSet(300);
   const contract = await getContract();
-  writeResults(contract, 'add_persistent_map', data);
-  //  writeResults(contract, "addAvlValue", data);
+  await writeResults(contract, 'add_map', data);
+  await writeResults(contract, 'add_unordered_map', data);
+  exec('yarn my-charts');
 }
 
 main();
