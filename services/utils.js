@@ -9,7 +9,7 @@ async function getContract() {
     const config = {
         keyStore,
         networkId: 'default',
-        nodeUrl: 'http://34.94.180.117:3030',
+        nodeUrl: 'https://rpc.testnet.near.org',
         walletUrl: 'https://wallet.testnet.near.org',
         helperUrl: 'https://helper.testnet.near.org',
         explorerUrl: 'https://explorer.testnet.near.org'
@@ -49,4 +49,5 @@ const formatNEAR = (yoctoNEAR) => {
      nearAPI.utils.format.formatNearAmount(yoctoNEAR)
      ) 
  }
+ 
 module.exports = { getContract, getDataSet, formatNEAR } ;

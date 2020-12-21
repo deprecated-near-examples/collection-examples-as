@@ -1,11 +1,15 @@
 {
+  "license": "(MIT AND Apache-2.0)",
+  "version": "0.1.0",
   "scripts": {
-    "example-charts": "open results/example-results/index.html",
-    "my-charts": "open results/user-results/index.html",
     "build": "asb --verbose",
     "deploy": "near dev-deploy --wasmFile=\"./contract.wasm\"",
     "reset": "rm -rf contract.wasm && rm -rf ./neardev",
-    "rebuild": "yarn reset && yarn build && yarn deploy"
+    "rebuild": "yarn reset && yarn build && yarn deploy",
+    "exSetCharts": "open results/example-results/set-data/index.html",
+    "exGetCharts": "open results/example-results/get-data/index.html",
+    "setCharts": "open results/user-results/set-data/index.html",
+    "getCharts": "open results/user-results/get-data/index.html"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.9.0",
