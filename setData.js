@@ -74,6 +74,6 @@ async function setData(data) {
   exec('yarn my-charts');
 }
 
-const data = getDataSet(alphaShaData, 30);
+const data = getDataSet(alphaShaData, 100);
 
 setData(data);
