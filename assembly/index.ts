@@ -42,3 +42,7 @@ export function add_unordered_map(mapName: SimpleMap): void {
 export function add_tree_map(mapName: SimpleMap): void {
   myTreeMap.set(mapName.key, mapName.value);
 }
+
+export function get_map(key: string): void {
+  myMap.getSome(key);
+}

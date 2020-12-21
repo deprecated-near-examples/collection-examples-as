@@ -1,24 +1,22 @@
-const fs = require("fs");
-const { exec } = require("child_process");
 const { getContract, getDataSet } = require("./services/utils");
+const fs = require("fs");
 
-async function addKeyValuePair(contract, contractMethodString, key, value) {
+async function getKeyValuePair(contract, contractMethodString, key) {
   const result = await contract.account.functionCall(
     contract.contractId,
     contractMethodString,
-    { mapName: { key, value } },
+    { key },
     "300000000000000"
   );
   return result;
 }
 
-async function calculateGas(contract, contractMethod, dataObj) {
+async function calculateGas(contract, contractMethod, key) {
   let resultArr = [];
-  const result = await addKeyValuePair(
+  const result = await getKeyValuePair(
     contract,
     contractMethod,
-    dataObj.key,
-    dataObj.value
+    key
   );
   resultArr.push(result.transaction_outcome.outcome.gas_burnt);
   for (let i = 0; i < result.receipts_outcome.length; i++) {
@@ -34,22 +32,23 @@ async function writeResults(contract, contractMethod, dataArr) {
     const gasBurnt = await calculateGas(contract, contractMethod, dataArr[i]);
     const timeAfterCall = Date.now();
     let result = {};
-    result[dataArr[i].key] = gasBurnt;
+    result[dataArr[i]] = gasBurnt;
     resultArr.push(result);
     console.log(gasBurnt, (timeAfterCall - timeBeforeCall) / 1000 + " sec.");
     fs.writeFileSync(
-      `results/user-results/${contractMethod}_results.js`,
+      `results/user-results/get-data/${contractMethod}_results.js`,
       `const ${contractMethod}_data = ${JSON.stringify(resultArr)}`
     );
   }
 }
 
-async function main() {
-  const data = getDataSet(300);
+const data = getDataSet(333);
+
+async function getData() {
   const contract = await getContract();
-  await writeResults(contract, 'add_map', data);
-  await writeResults(contract, 'add_unordered_map', data);
-  exec('yarn my-charts');
+  await writeResults(contract, "get_map", Object.keys(data));
+  await writeResults(contract, "get_unordered_map", Object.keys(data));
+  // exec('yarn my-charts');
 }
 
-main();
+getData();

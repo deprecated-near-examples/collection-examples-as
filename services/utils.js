@@ -1,5 +1,4 @@
 require("dotenv").config({ path: './neardev/dev-account.env' });
-const data = require('./data');
 const nearAPI = require("near-api-js");
 const userHome = require('user-home');
 
@@ -10,7 +9,7 @@ async function getContract() {
     const config = {
         keyStore,
         networkId: 'default',
-        nodeUrl: 'https://rpc.testnet.near.org',
+        nodeUrl: 'http://34.94.180.117:3030',
         walletUrl: 'https://wallet.testnet.near.org',
         helperUrl: 'https://helper.testnet.near.org',
         explorerUrl: 'https://explorer.testnet.near.org'
@@ -34,14 +33,20 @@ async function getContract() {
     return new nearAPI.Contract(accountObj, contractName, methodArgs);
 }
 
-const getDataSet = (maxVal) => {
-    const delta = Math.floor(data.length / maxVal);
+const getDataSet = (dataSet, maxVal) => {
+    const delta = Math.floor(dataSet.length / maxVal);
     let results = [];
-    for (let i = 0; i < data.length; i=i+delta) {
-      const element = data[i];
+    for (let i = 0; i < dataSet.length; i=i+delta) {
+      const element = dataSet[i];
       results.push(element);
     }
     return results;
   }
 
-module.exports = { getContract, getDataSet } ;
+ // converts yoctoNEAR (passed as a string) into standard Ⓝ as a float
+const formatNEAR = (yoctoNEAR) => {
+    return Number(
+     nearAPI.utils.format.formatNearAmount(yoctoNEAR)
+     ) 
+ }
+module.exports = { getContract, getDataSet, formatNEAR } ;
