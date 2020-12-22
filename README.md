@@ -4,7 +4,7 @@ This repository serves to demonstrate differences in gas consumption when storin
 
 After running `setData.js` or `getData.js`, results will be populated in a chart and automatically displayed upon completion.
 
-![example chart screenshot](assets/set-data-example-chart.png)
+![example chart screenshot](assets/set-data-example-charts.png)
 
 ## Prerequisites
 
