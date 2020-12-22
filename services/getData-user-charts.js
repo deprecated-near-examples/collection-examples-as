@@ -1,8 +1,8 @@
 require.config({
   paths: {
-    add_map: "../results/user-results/set-data/add_map_results",
-    add_unordered_map: "../results/user-results/set-data/add_unordered_map_results",
-    add_tree_map: "../results/user-results/set-data/add_tree_map_results"
+    get_map: "../results/user-results/get-data/get_map_results",
+    get_unordered_map: "../results/user-results/get-data/get_unordered_map_results",
+    get_tree_map: "../results/user-results/get-data/get_tree_map_results"
   },
 });
 
@@ -83,14 +83,14 @@ function renderChart(chartName, chartData) {
   return myChart;
 }
 
-requirejs(["add_map"], function () {
-  return renderChart("add_map", add_map_data);
+requirejs(["get_map"], function () {
+  return renderChart("get_map", get_map_data);
 });
 
-requirejs(["add_unordered_map"], function () {
-  return renderChart("add_unordered_map", add_unordered_map_data);
+requirejs(["get_unordered_map"], function () {
+  return renderChart("get_unordered_map", get_unordered_map_data);
 });
 
-requirejs(["add_tree_map"], function () {
-  return renderChart("add_tree_map", add_tree_map_data);
+requirejs(["get_tree_map"], function () {
+  return renderChart("get_tree_map", get_tree_map_data);
 });

@@ -71,9 +71,9 @@ async function setData(data) {
   await recordGasResults(contract, 'add_map', data);
   await recordGasResults(contract, 'add_unordered_map', data);
   await recordGasResults(contract, 'add_tree_map', data)
-  exec('yarn my-charts');
+  exec('yarn setCharts');
 }
 
-const data = getDataSet(alphaShaData, 100);
+const data = getDataSet(alphaShaData, 30);
 
 setData(data);

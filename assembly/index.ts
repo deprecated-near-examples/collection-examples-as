@@ -1,4 +1,4 @@
-import { context, storage, logging, PersistentVector } from "near-sdk-as";
+import { storage, logging, PersistentVector } from "near-sdk-as";
 import { myMap, myUnorderedMap, myTreeMap } from "./model";
 
 export function getValue(key: string): string | null {
@@ -33,6 +33,7 @@ class SimpleMap {
 
 export function add_map(mapName: SimpleMap): void {
   myMap.set(mapName.key, mapName.value);
+  logging.log(mapName.key);
 }
 
 export function add_unordered_map(mapName: SimpleMap): void {
@@ -45,4 +46,12 @@ export function add_tree_map(mapName: SimpleMap): void {
 
 export function get_map(key: string): void {
   myMap.getSome(key);
+}
+
+export function get_unordered_map(key: string): void {
+  myUnorderedMap.getSome(key);
+}
+
+export function get_tree_map(key: string): void {
+  myTreeMap.getSome(key);
 }

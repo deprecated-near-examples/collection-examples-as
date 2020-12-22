@@ -1,40 +1,58 @@
-const { getContract, getDataSet } = require("./services/utils");
 const fs = require("fs");
+const { exec } = require("child_process");
+const alphaShaData = require('./data/alpha-sha');
+const { formatNEAR, getContract, getDataSet } = require("./services/utils");
+
+// maximum amount of gas you can attach to a single contract call
+// all unused gas will be refunded to your account
+const MAX_GAS = "300000000000000";
 
 async function getKeyValuePair(contract, contractMethodString, key) {
   const result = await contract.account.functionCall(
     contract.contractId,
     contractMethodString,
     { key },
-    "300000000000000"
+    MAX_GAS
   );
   return result;
 }
 
 async function calculateGas(contract, contractMethod, key) {
-  let resultArr = [];
-  const result = await getKeyValuePair(
-    contract,
-    contractMethod,
-    key
-  );
-  resultArr.push(result.transaction_outcome.outcome.gas_burnt);
+  let gasBurnt = [];
+  let tokensBurnt = [];
+  const result = await getKeyValuePair(contract, contractMethod, key);
+  gasBurnt.push(result.transaction_outcome.outcome.gas_burnt);
+  tokensBurnt.push(formatNEAR(result.transaction_outcome.outcome.tokens_burnt));
   for (let i = 0; i < result.receipts_outcome.length; i++) {
-    resultArr.push(result.receipts_outcome[i].outcome.gas_burnt);
+    gasBurnt.push(result.receipts_outcome[i].outcome.gas_burnt);
+    tokensBurnt.push(
+      formatNEAR(result.receipts_outcome[i].outcome.tokens_burnt)
+    );
   }
-  return resultArr.reduce((acc, curr) => acc + curr, 0);
+  return {
+    gas_burnt: gasBurnt.reduce((acc, cur) => acc + cur, 0),
+    tokens_burnt: tokensBurnt.reduce((acc, curr) => acc + curr, 0),
+  };
 }
 
-async function writeResults(contract, contractMethod, dataArr) {
+async function recordGasResults(contract, contractMethod, dataArr) {
+  console.log(
+    `Calling [ ${contract.contractId} ] using [ ${contractMethod} ]...`
+  );
   let resultArr = [];
   for (let i = 0; i < dataArr.length; i++) {
-    const timeBeforeCall = Date.now();
-    const gasBurnt = await calculateGas(contract, contractMethod, dataArr[i]);
-    const timeAfterCall = Date.now();
-    let result = {};
-    result[dataArr[i]] = gasBurnt;
-    resultArr.push(result);
-    console.log(gasBurnt, (timeAfterCall - timeBeforeCall) / 1000 + " sec.");
+    console.time("call_duration");
+    console.log("call placed at:", new Date());
+    const results = await calculateGas(contract, contractMethod, dataArr[i].key);
+    console.log(dataArr[i].key);
+    console.timeEnd("call_duration");
+    console.log(results);
+     // gas_burnt converts results into TGas (terra gas)
+    resultArr.push({
+      key: dataArr[i].key,
+      gas_burnt: Number((results.gas_burnt / 1e12).toFixed(4)),
+      tokens_burnt: results.tokens_burnt,
+    });
     fs.writeFileSync(
       `results/user-results/get-data/${contractMethod}_results.js`,
       `const ${contractMethod}_data = ${JSON.stringify(resultArr)}`
@@ -42,13 +60,14 @@ async function writeResults(contract, contractMethod, dataArr) {
   }
 }
 
-const data = getDataSet(333);
-
-async function getData() {
+async function getData(data) {
   const contract = await getContract();
-  await writeResults(contract, "get_map", Object.keys(data));
-  await writeResults(contract, "get_unordered_map", Object.keys(data));
-  // exec('yarn my-charts');
+  await recordGasResults(contract, "get_map", data);
+  await recordGasResults(contract, "get_unordered_map", data);
+  await recordGasResults(contract, "get_tree_map", data);
+  exec('yarn getCharts');
 }
 
-getData();
+const data = getDataSet(alphaShaData, 30);
+
+getData(data);

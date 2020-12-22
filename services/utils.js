@@ -19,7 +19,11 @@ async function getContract() {
     const accountObj = await near.account(contractName);
 
     const methodArgs = {
-        viewMethods: ["getValue"],
+        viewMethods: [
+            "get_map", 
+            "get_unordered_map", 
+            "get_tree_map"
+        ],
         changeMethods: [
             "setString", 
             "setNumber", 
