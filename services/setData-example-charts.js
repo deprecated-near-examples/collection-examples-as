@@ -22,7 +22,7 @@ function renderChart(chartName, chartData) {
       labels: keys, 
       datasets: [
         {
-          label: chartName,
+          label: totalTxCost,
           data: values,
           backgroundColor: ["rgba(0, 114, 206, .5)"],
           borderColor: ["rgba(0, 0, 0, .25)"],
@@ -33,7 +33,7 @@ function renderChart(chartName, chartData) {
     options: {
       title: {
         display: true,
-        text: totalTxCost,
+        text: chartName,
         fontFamily: 'Source Code Pro',
         fontSize: 16,
         fontColor: '#333'
