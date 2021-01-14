@@ -5,6 +5,10 @@ export function getValue(key: string): string | null {
   return storage.get<string>(key);
 }
 
+export function ping():void{
+  
+}
+
 export function setString(key:string, value: string): void {
   logging.log("Data Stored");
   logging.log("Key: " + key);
