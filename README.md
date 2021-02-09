@@ -10,7 +10,7 @@ After running `setData.js` or `getData.js`, results will be populated in a chart
 
 - Current version of [Node.js](https://nodejs.org/). >=v14.0.0
 - [NEAR `testnet` account](https://wallet.testnet.near.org/)
-- [`near-cli`](https://docs.near.org/docs/development/near-cli#setup) - _(command line interface to interact with the NEAR blockchain)_
+- [`near-cli`](https://docs.near.org/docs/tools/near-cli#setup) - _(command line interface to interact with the NEAR blockchain)_
 - [yarn](https://classic.yarnpkg.com/en/docs/install) - _(dependency management tool)_
 
 ## Setup
@@ -22,7 +22,7 @@ After running `setData.js` or `getData.js`, results will be populated in a chart
    ```
 
 2. Deploy your smart contract
-   The following command will create a development account and then build and deploy the contract located in `assembly/index.ts` using [`dev-deploy`](https://docs.near.org/docs/development/near-cli#near-dev-deploy).
+   The following command will create a development account and then build and deploy the contract located in `assembly/index.ts` using [`dev-deploy`](https://docs.near.org/docs/tools/near-cli#near-dev-deploy).
   
    ```bash
    yarn deploy
